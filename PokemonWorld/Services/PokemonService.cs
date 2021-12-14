@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using FluentResults;
 using PokemonWorld.Data;
-using PokemonWorld.Data.DTO.Pokemon;
+using PokemonWorld.Data.DTO;
 using PokemonWorld.Models;
 using System;
 using System.Collections.Generic;
@@ -14,7 +14,7 @@ namespace PokemonWorld.Services
         private AppDbContext _context;
         private IMapper _mapper;
 
-        public PokemonService(AppDbContext context, IMapper mapper, AtributoService atributoService)
+        public PokemonService(AppDbContext context, IMapper mapper)
         {
             _context = context;
             _mapper = mapper;

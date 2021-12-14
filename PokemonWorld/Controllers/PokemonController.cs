@@ -3,7 +3,6 @@ using FluentResults;
 using Microsoft.AspNetCore.Mvc;
 using PokemonWorld.Data;
 using PokemonWorld.Data.DTO;
-using PokemonWorld.Data.DTO.Pokemon;
 using PokemonWorld.Models;
 using PokemonWorld.Services;
 using System;
@@ -65,13 +64,29 @@ namespace PokemonWorld.Controllers
             return NoContent();
         }
 
-        [HttpPut]
-        public IActionResult AtualizarTodosAtributosPokemo([FromQuery] int id ,[FromBody] CreateAtributoDto dto)
+        [HttpPut("atualizar/todos")]
+        public IActionResult AtualizarTodosAtributosPokemon([FromQuery] int id ,[FromBody] CreateAtributoDto dto)
         {
             int atributoId = _pokemonService.RecuperaAtributoId(id);
             if(atributoId != -1)
             {
                 Result result = _atributoService.AtualizarTodosAtributos(dto, atributoId);
+                if (result.IsFailed)
+                {
+                    return NotFound();
+                }
+                return NoContent();
+            }
+            return NotFound();
+        }
+
+        [HttpPut("atualizar/individual")]
+        public IActionResult AtualizarAtributoIndidual([FromQuery] int id, string atributo, int value)
+        {
+            int atributoId = _pokemonService.RecuperaAtributoId(id);
+            if (atributoId != -1)
+            {
+                Result result = _atributoService.AtualizarAtributoIndividual(atributoId, atributo, value);
                 if (result.IsFailed)
                 {
                     return NotFound();

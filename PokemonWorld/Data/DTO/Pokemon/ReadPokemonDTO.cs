@@ -1,7 +1,7 @@
 ﻿using PokemonWorld.Models;
 using System.ComponentModel.DataAnnotations;
 
-namespace PokemonWorld.Data.DTO.Pokemon
+namespace PokemonWorld.Data.DTO
 {
     public class ReadPokemonDTO
     {

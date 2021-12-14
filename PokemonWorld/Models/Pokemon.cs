@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace PokemonWorld.Models
 {
@@ -24,6 +25,8 @@ namespace PokemonWorld.Models
 
         [Required]
         public int AtributoId { get; set; }
+
+
 
     }
 }

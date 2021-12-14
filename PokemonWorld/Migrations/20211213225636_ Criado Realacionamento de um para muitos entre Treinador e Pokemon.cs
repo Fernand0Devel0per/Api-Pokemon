@@ -3,7 +3,7 @@ using MySql.EntityFrameworkCore.Metadata;
 
 namespace PokemonWorld.Migrations
 {
-    public partial class Relacionamentode1paraumentrePokemoneatributo : Migration
+    public partial class CriadoRealacionamentodeumparamuitosentreTreinadorePokemon : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -26,6 +26,21 @@ namespace PokemonWorld.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Treinadores",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    Sexo = table.Column<string>(type: "varchar(1)", maxLength: 1, nullable: false),
+                    Cidade = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Treinadores", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Pokemons",
                 columns: table => new
                 {
@@ -34,7 +49,8 @@ namespace PokemonWorld.Migrations
                     Numero = table.Column<int>(type: "int", nullable: false),
                     Nome = table.Column<string>(type: "text", nullable: false),
                     Tipo = table.Column<string>(type: "text", nullable: false),
-                    AtributoId = table.Column<int>(type: "int", nullable: false)
+                    AtributoId = table.Column<int>(type: "int", nullable: false),
+                    TreinadorId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -45,6 +61,12 @@ namespace PokemonWorld.Migrations
                         principalTable: "Atributos",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Pokemons_Treinadores_TreinadorId",
+                        column: x => x.TreinadorId,
+                        principalTable: "Treinadores",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -52,6 +74,11 @@ namespace PokemonWorld.Migrations
                 table: "Pokemons",
                 column: "AtributoId",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Pokemons_TreinadorId",
+                table: "Pokemons",
+                column: "TreinadorId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -61,6 +88,9 @@ namespace PokemonWorld.Migrations
 
             migrationBuilder.DropTable(
                 name: "Atributos");
+
+            migrationBuilder.DropTable(
+                name: "Treinadores");
         }
     }
 }

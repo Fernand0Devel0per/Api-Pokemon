@@ -52,5 +52,44 @@ namespace PokemonWorld.Services
             }
             return Result.Fail("Atributo não encontrado");
         }
+
+        public Result AtualizarAtributoIndividual(int atributoId, string vlrAtributo, int value)
+        {
+            Atributo atributo = _context.Atributos.FirstOrDefault(atributo => atributo.Id == atributoId);
+            int controle = 0;
+            switch (vlrAtributo.ToLower())
+            {
+                case "ataque":
+                    atributo.Ataque = value;
+                    controle = 1;
+                    break;
+                case "defesa":
+                    atributo.Defesa = value;
+                    controle = 1;
+                    break;
+                case "especialataque":
+                    atributo.EspecialAtaque = value;
+                    controle = 1;
+                    break;
+                case "especialdefesa":
+                    atributo.EspecialDefesa = value;
+                    controle = 1;
+                    break;
+                case "vida":
+                    atributo.Vida = value;
+                    controle = 1;
+                    break;
+                case "velocidade":
+                    atributo.Velocidade = value;
+                    controle = 1;
+                    break;   
+            }
+            if (controle != 1)
+            {
+                return Result.Fail("Atributo não encontrado");
+            }
+            _context.SaveChanges();
+            return Result.Ok();
+        }
     }
 }

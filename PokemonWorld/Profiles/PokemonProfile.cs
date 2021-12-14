@@ -1,4 +1,4 @@
-﻿using PokemonWorld.Data.DTO.Pokemon;
+﻿using PokemonWorld.Data.DTO;
 using PokemonWorld.Models;
 using AutoMapper;
 

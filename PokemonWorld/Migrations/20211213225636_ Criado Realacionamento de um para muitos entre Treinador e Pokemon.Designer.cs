@@ -8,8 +8,8 @@ using PokemonWorld.Data;
 namespace PokemonWorld.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20211212184059_Relacionamento de 1 para um entre Pokemon e atributo")]
-    partial class Relacionamentode1paraumentrePokemoneatributo
+    [Migration("20211213225636_ Criado Realacionamento de um para muitos entre Treinador e Pokemon")]
+    partial class CriadoRealacionamentodeumparamuitosentreTreinadorePokemon
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -67,12 +67,41 @@ namespace PokemonWorld.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<int>("TreinadorId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("AtributoId")
                         .IsUnique();
 
+                    b.HasIndex("TreinadorId");
+
                     b.ToTable("Pokemons");
+                });
+
+            modelBuilder.Entity("PokemonWorld.Models.Treinador", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Cidade")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Sexo")
+                        .IsRequired()
+                        .HasMaxLength(1)
+                        .HasColumnType("varchar(1)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Treinadores");
                 });
 
             modelBuilder.Entity("PokemonWorld.Models.Pokemon", b =>
@@ -83,12 +112,25 @@ namespace PokemonWorld.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("PokemonWorld.Models.Treinador", "Treinador")
+                        .WithMany("Pokemons")
+                        .HasForeignKey("TreinadorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Atributo");
+
+                    b.Navigation("Treinador");
                 });
 
             modelBuilder.Entity("PokemonWorld.Models.Atributo", b =>
                 {
                     b.Navigation("Pokemon");
+                });
+
+            modelBuilder.Entity("PokemonWorld.Models.Treinador", b =>
+                {
+                    b.Navigation("Pokemons");
                 });
 #pragma warning restore 612, 618
         }

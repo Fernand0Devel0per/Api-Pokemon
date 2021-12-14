@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+﻿
 using Microsoft.EntityFrameworkCore;
 using PokemonWorld.Models;
 
@@ -23,9 +23,18 @@ namespace PokemonWorld.Data
                 .HasOne(atributo => atributo.Pokemon)
                 .WithOne(pokemon => pokemon.Atributo)
                 .HasForeignKey<Pokemon>(pokemon => pokemon.AtributoId);
+
+            builder.Entity<Time>()
+                .HasOne(time => time.Treinador)
+                .WithOne(treinador => treinador.Time)
+                .HasForeignKey<Treinador>(treinador => treinador.TimeId);
+
         }
 
         public DbSet<Pokemon> Pokemons { get; set; }
         public DbSet<Atributo> Atributos { get; set; }
+        public DbSet<Treinador> Treinadores { get; set; }
+        public DbSet<Time> Times { get; set; }
+        
     }
 }
